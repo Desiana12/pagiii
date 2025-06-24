@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Selamat Pagi Cantik</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to bottom, #ffe6f0, #ffffff);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+
+    .bunga {
+      width: 200px;
+      animation: goyang 3s infinite ease-in-out;
+    }
+
+    @keyframes goyang {
+      0%, 100% { transform: rotate(-3deg); }
+      50% { transform: rotate(3deg); }
+    }
+
+    .teks {
+      font-size: 28px;
+      color: #ff4da6;
+      font-weight: bold;
+      margin-top: 20px;
+      animation: fadeIn 3s ease-in-out forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(30px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <img src="bungapink.png" alt="Bunga Cantik" class="bunga" />
+  <div class="teks">Selamat Pagi, Bapak Karsito! 💖 Semoga harimu indah hari ini sayang 🌞</div>
+
+  <!-- 🎶 Musik Cinta -->
+  <audio autoplay loop>
+    <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mpeg">
+    Browser kamu tidak mendukung audio.
+  </audio>
+</body>
+</html>
+  <script>
+    function showFlower() {
+      document.querySelector('.btn').style.display = 'none';
+      document.getElementById('canvas').style.display = 'block';
+      animateHeartFlower();
+    }
+
+    function drawHeart(ctx, x, y, size, color) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.bezierCurveTo(x, y - size/2, x - size, y - size/2, x - size, y);
+      ctx.bezierCurveTo(x - size, y + size, x, y + size*1.4, x, y + size*2);
+      ctx.bezierCurveTo(x, y + size*1.4, x + size, y + size, x + size, y);
+      ctx.bezierCurveTo(x + size, y - size/2, x, y - size/2, x, y);
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.fill();
+      ctx.restore();
+    }
+
+    function animateHeartFlower() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+      let size = 10;
+      let maxSize = 60;
+      let grow = true;
+      let petals = 8;
+      let angleOffset = 0;
+
+      function draw() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        // Batang
+        ctx.save();
+        ctx.beginPath();
+        ctx.moveTo(200, 350);
+        ctx.bezierCurveTo(200, 300, 200, 250, 200, 200);
+        ctx.lineWidth = 10;
+        ctx.strokeStyle = "#43a047";
+        ctx.stroke();
+        ctx.restore();
+
+        // Daun
+        ctx.save();
+        ctx.beginPath();
+        ctx.ellipse(185, 270, 18, 8, Math.PI/4, 0, 2*Math.PI);
+        ctx.fillStyle = "#66bb6a";
+        ctx.fill();
+        ctx.beginPath();
+        ctx.ellipse(215, 270, 18, 8, -Math.PI/4, 0, 2*Math.PI);
+        ctx.fillStyle = "#66bb6a";
+        ctx.fill();
+        ctx.restore();
+
+        // Kelopak hati
+        for (let i = 0; i < petals; i++) {
+          let angle = (2 * Math.PI / petals) * i + angleOffset;
+          let x = 200 + Math.cos(angle) * 40;
+          let y = 200 + Math.sin(angle) * 40;
+          drawHeart(ctx, x, y, size, "#e91e63");
+        }
+        // Tengah bunga
+        ctx.beginPath();
+        ctx.arc(200, 200, size/2, 0, 2*Math.PI);
+        ctx.fillStyle = "#fffde7";
+        ctx.fill();
+
+        if (grow && size < maxSize) {
+          size += 2;
+          angleOffset += 0.08;
+          requestAnimationFrame(draw);
+        }
+      }
+      draw();
+    }
+  </script>
+</body>
+</html>
+
